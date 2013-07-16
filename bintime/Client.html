@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="Generator" content="Kate, the KDE Advanced Text Editor" />
+<title>Client.java</title>
+</head>
+<body>
+<pre style='color:#cfbfad;background-color:#1e1e27;'>
+<span style='color:#9098ff;'>import</span><span style='color:#9098ff;'> java.awt.*;</span>
+<span style='color:#9098ff;'>import</span><span style='color:#9098ff;'> javax.swing.*;</span>
+
+<span style='color:#9098ff;'>public</span> <span style='color:#9098ff;'>class</span> Client
+  <span style='color:#9098ff;'>extends</span> <span style='color:#ff8bff;'>JApplet</span>
+  <span style='color:#9098ff;'>implements</span> <span style='color:#ff8bff;'>Runnable</span>
+<span style='color:#77ce77;'>{</span>
+  <span style='color:#9098ff;'>private</span> <span style='color:#8a96ff;'>static</span> <span style='color:#8a96ff;'>int</span> WIDTH <span style='color:#77ce77;'>=</span> <span style='color:#f0ad6d;'>800</span><span style='color:#77ce77;'>;</span>
+  <span style='color:#9098ff;'>private</span> <span style='color:#8a96ff;'>static</span> <span style='color:#8a96ff;'>int</span> HEIGHT <span style='color:#77ce77;'>=</span> <span style='color:#f0ad6d;'>800</span><span style='color:#77ce77;'>;</span>
+  <span style='color:#9098ff;'>private</span> <span style='color:#8a96ff;'>static</span> <span style='color:#8a96ff;'>int</span> TICK <span style='color:#77ce77;'>=</span> <span style='color:#f0ad6d;'>200</span><span style='color:#77ce77;'>;</span>
+
+  <span style='color:#9098ff;'>private</span> <span style='color:#8a96ff;'>static</span> <span style='color:#9098ff;'>class</span> <span style='color:#ff8bff;'>Panel</span>
+    <span style='color:#9098ff;'>extends</span> <span style='color:#ff8bff;'>JPanel</span>
+  <span style='color:#77ce77;'>{</span>
+    <span style='color:#9098ff;'>private</span> Client client<span style='color:#77ce77;'>;</span>
+
+    <span style='color:#9098ff;'>public</span> <span style='color:#ff8bff;'>Panel</span><span style='color:#77ce77;'>(</span> Client client <span style='color:#77ce77;'>)</span>
+    <span style='color:#77ce77;'>{</span>
+      <span style='color:#9098ff;'>this</span><span style='color:#77ce77;'>.</span>client <span style='color:#77ce77;'>=</span> client<span style='color:#77ce77;'>;</span>
+    <span style='color:#77ce77;'>}</span>
+
+    @Override
+    <span style='color:#9098ff;'>public</span> <span style='color:#8a96ff;'>void</span> paint<span style='color:#77ce77;'>(</span> <span style='color:#ff8bff;'>Graphics</span> g <span style='color:#77ce77;'>)</span>
+    <span style='color:#77ce77;'>{</span>
+      <span style='color:#9098ff;'>for</span><span style='color:#77ce77;'>(</span> <span style='color:#8a96ff;'>int</span> i <span style='color:#77ce77;'>=</span> <span style='color:#f0ad6d;'>0</span><span style='color:#77ce77;'>;</span> i <span style='color:#77ce77;'>&lt;</span> <span style='color:#f0ad6d;'>8</span><span style='color:#77ce77;'>;</span> <span style='color:#77ce77;'>++</span>i <span style='color:#77ce77;'>)</span> <span style='color:#77ce77;'>{</span>
+        <span style='color:#9098ff;'>for</span><span style='color:#77ce77;'>(</span> <span style='color:#8a96ff;'>int</span> j <span style='color:#77ce77;'>=</span> <span style='color:#f0ad6d;'>0</span><span style='color:#77ce77;'>;</span> j <span style='color:#77ce77;'>&lt;</span> <span style='color:#f0ad6d;'>8</span><span style='color:#77ce77;'>;</span> <span style='color:#77ce77;'>++</span>j <span style='color:#77ce77;'>)</span> <span style='color:#77ce77;'>{</span>
+          g<span style='color:#77ce77;'>.</span>setColor<span style='color:#77ce77;'>(</span> client<span style='color:#77ce77;'>.</span>tiles<span style='color:#77ce77;'>[</span>i<span style='color:#77ce77;'>][</span>j<span style='color:#77ce77;'>]</span> <span style='color:#77ce77;'>?</span> <span style='color:#ff8bff;'>Color</span><span style='color:#77ce77;'>.</span>WHITE <span style='color:#77ce77;'>:</span> <span style='color:#ff8bff;'>Color</span><span style='color:#77ce77;'>.</span>BLACK <span style='color:#77ce77;'>);</span>
+          g<span style='color:#77ce77;'>.</span>fillRect<span style='color:#77ce77;'>(</span> j <span style='color:#77ce77;'>*</span> <span style='color:#f0ad6d;'>100</span><span style='color:#77ce77;'>,</span> i <span style='color:#77ce77;'>*</span> <span style='color:#f0ad6d;'>100</span><span style='color:#77ce77;'>,</span> <span style='color:#f0ad6d;'>100</span><span style='color:#77ce77;'>,</span> <span style='color:#f0ad6d;'>100</span> <span style='color:#77ce77;'>);</span>
+        <span style='color:#77ce77;'>}</span>
+      <span style='color:#77ce77;'>}</span>
+    <span style='color:#77ce77;'>}</span>
+
+    @Override
+    <span style='color:#9098ff;'>public</span> <span style='color:#8a96ff;'>void</span> update<span style='color:#77ce77;'>(</span> <span style='color:#ff8bff;'>Graphics</span> g <span style='color:#77ce77;'>)</span>
+    <span style='color:#77ce77;'>{</span>
+      paint<span style='color:#77ce77;'>(</span> g <span style='color:#77ce77;'>);</span>
+    <span style='color:#77ce77;'>}</span>
+  <span style='color:#77ce77;'>}</span>
+
+  <span style='color:#9098ff;'>private</span> <span style='color:#ff8bff;'>Panel</span> panel <span style='color:#77ce77;'>=</span> <span style='color:#9098ff;'>new</span> <span style='color:#ff8bff;'>Panel</span><span style='color:#77ce77;'>(</span> <span style='color:#9098ff;'>this</span> <span style='color:#77ce77;'>);</span>
+  <span style='color:#9098ff;'>private</span> <span style='color:#9098ff;'>volatile</span> <span style='color:#8a96ff;'>boolean</span> isAlive <span style='color:#77ce77;'>=</span> <span style='color:#9098ff;'>true</span><span style='color:#77ce77;'>;</span>
+
+  <span style='color:#9098ff;'>private</span> <span style='color:#8a96ff;'>long</span> number <span style='color:#77ce77;'>=</span> <span style='color:#f0ad6d;'>0</span><span style='color:#77ce77;'>;</span>
+  <span style='color:#9098ff;'>private</span> <span style='color:#8a96ff;'>boolean</span><span style='color:#77ce77;'>[][]</span> tiles <span style='color:#77ce77;'>=</span> <span style='color:#9098ff;'>new</span> <span style='color:#8a96ff;'>boolean</span><span style='color:#77ce77;'>[][]</span> <span style='color:#77ce77;'>{</span>
+    <span style='color:#9098ff;'>new</span> <span style='color:#8a96ff;'>boolean</span><span style='color:#77ce77;'>[</span><span style='color:#f0ad6d;'>8</span><span style='color:#77ce77;'>],</span> <span style='color:#9098ff;'>new</span> <span style='color:#8a96ff;'>boolean</span><span style='color:#77ce77;'>[</span><span style='color:#f0ad6d;'>8</span><span style='color:#77ce77;'>],</span> <span style='color:#9098ff;'>new</span> <span style='color:#8a96ff;'>boolean</span><span style='color:#77ce77;'>[</span><span style='color:#f0ad6d;'>8</span><span style='color:#77ce77;'>],</span> <span style='color:#9098ff;'>new</span> <span style='color:#8a96ff;'>boolean</span><span style='color:#77ce77;'>[</span><span style='color:#f0ad6d;'>8</span><span style='color:#77ce77;'>],</span>
+    <span style='color:#9098ff;'>new</span> <span style='color:#8a96ff;'>boolean</span><span style='color:#77ce77;'>[</span><span style='color:#f0ad6d;'>8</span><span style='color:#77ce77;'>],</span> <span style='color:#9098ff;'>new</span> <span style='color:#8a96ff;'>boolean</span><span style='color:#77ce77;'>[</span><span style='color:#f0ad6d;'>8</span><span style='color:#77ce77;'>],</span> <span style='color:#9098ff;'>new</span> <span style='color:#8a96ff;'>boolean</span><span style='color:#77ce77;'>[</span><span style='color:#f0ad6d;'>8</span><span style='color:#77ce77;'>],</span> <span style='color:#9098ff;'>new</span> <span style='color:#8a96ff;'>boolean</span><span style='color:#77ce77;'>[</span><span style='color:#f0ad6d;'>8</span><span style='color:#77ce77;'>]</span>
+  <span style='color:#77ce77;'>};</span>
+
+  <span style='color:#9098ff;'>private</span> <span style='color:#8a96ff;'>void</span> step<span style='color:#77ce77;'>()</span>
+  <span style='color:#77ce77;'>{</span>
+    <span style='color:#77ce77;'>++</span>number<span style='color:#77ce77;'>;</span>
+
+    <span style='color:#9098ff;'>for</span><span style='color:#77ce77;'>(</span> <span style='color:#8a96ff;'>int</span> i <span style='color:#77ce77;'>=</span> <span style='color:#f0ad6d;'>0</span><span style='color:#77ce77;'>;</span> i <span style='color:#77ce77;'>&lt;</span> <span style='color:#f0ad6d;'>8</span><span style='color:#77ce77;'>;</span> <span style='color:#77ce77;'>++</span>i <span style='color:#77ce77;'>)</span> <span style='color:#77ce77;'>{</span>
+      <span style='color:#9098ff;'>for</span><span style='color:#77ce77;'>(</span> <span style='color:#8a96ff;'>int</span> j <span style='color:#77ce77;'>=</span> <span style='color:#f0ad6d;'>0</span><span style='color:#77ce77;'>;</span> j <span style='color:#77ce77;'>&lt;</span> <span style='color:#f0ad6d;'>8</span><span style='color:#77ce77;'>;</span> <span style='color:#77ce77;'>++</span>j <span style='color:#77ce77;'>)</span> <span style='color:#77ce77;'>{</span>
+        <span style='color:#8a96ff;'>long</span> shift <span style='color:#77ce77;'>=</span> i <span style='color:#77ce77;'>*</span> <span style='color:#f0ad6d;'>8</span> <span style='color:#77ce77;'>+</span> j<span style='color:#77ce77;'>;</span>
+
+        tiles<span style='color:#77ce77;'>[</span>i<span style='color:#77ce77;'>][</span>j<span style='color:#77ce77;'>]</span> <span style='color:#77ce77;'>=</span> <span style='color:#77ce77;'>(</span> <span style='color:#77ce77;'>(</span> <span style='color:#f0ad6d;'>1l</span> <span style='color:#77ce77;'>&lt;&lt;</span> shift <span style='color:#77ce77;'>)</span> <span style='color:#77ce77;'>&amp;</span> number <span style='color:#77ce77;'>)</span> <span style='color:#77ce77;'>!=</span> <span style='color:#f0ad6d;'>0</span><span style='color:#77ce77;'>;</span>
+      <span style='color:#77ce77;'>}</span>
+    <span style='color:#77ce77;'>}</span>
+  <span style='color:#77ce77;'>}</span>
+
+  <span style='color:#9098ff;'>private</span> <span style='color:#8a96ff;'>static</span> <span style='color:#8a96ff;'>void</span> sleep<span style='color:#77ce77;'>(</span> <span style='color:#8a96ff;'>long</span> millis <span style='color:#77ce77;'>)</span>
+  <span style='color:#77ce77;'>{</span>
+    <span style='color:#9098ff;'>try</span> <span style='color:#77ce77;'>{</span>
+      <span style='color:#ff8bff;'>Thread</span><span style='color:#77ce77;'>.</span>sleep<span style='color:#77ce77;'>(</span> millis <span style='color:#77ce77;'>);</span>
+    <span style='color:#77ce77;'>}</span>
+    <span style='color:#9098ff;'>catch</span><span style='color:#77ce77;'>(</span> <span style='color:#ff8bff;'>InterruptedException</span> e <span style='color:#77ce77;'>)</span>
+    <span style='color:#77ce77;'>{}</span>
+  <span style='color:#77ce77;'>}</span>
+
+  @Override
+  <span style='color:#9098ff;'>public</span> <span style='color:#8a96ff;'>void</span> run<span style='color:#77ce77;'>()</span>
+  <span style='color:#77ce77;'>{</span>
+    <span style='color:#8a96ff;'>long</span> timeNext <span style='color:#77ce77;'>=</span> <span style='color:#ff8bff;'>System</span><span style='color:#77ce77;'>.</span>currentTimeMillis<span style='color:#77ce77;'>()</span> <span style='color:#77ce77;'>+</span> TICK<span style='color:#77ce77;'>;</span>
+    <span style='color:#8a96ff;'>long</span> timeLeft<span style='color:#77ce77;'>;</span>
+
+    <span style='color:#9098ff;'>while</span><span style='color:#77ce77;'>(</span> isAlive <span style='color:#77ce77;'>)</span> <span style='color:#77ce77;'>{</span>
+      step<span style='color:#77ce77;'>();</span>
+
+      timeLeft <span style='color:#77ce77;'>=</span> timeNext <span style='color:#77ce77;'>-</span> <span style='color:#ff8bff;'>System</span><span style='color:#77ce77;'>.</span>currentTimeMillis<span style='color:#77ce77;'>();</span>
+      <span style='color:#9098ff;'>if</span><span style='color:#77ce77;'>(</span> timeLeft <span style='color:#77ce77;'>&gt;</span> <span style='color:#f0ad6d;'>0</span> <span style='color:#77ce77;'>)</span> <span style='color:#77ce77;'>{</span>
+        panel<span style='color:#77ce77;'>.</span>repaint<span style='color:#77ce77;'>();</span>
+        repaint<span style='color:#77ce77;'>();</span>
+
+        timeLeft <span style='color:#77ce77;'>=</span> timeNext <span style='color:#77ce77;'>-</span> <span style='color:#ff8bff;'>System</span><span style='color:#77ce77;'>.</span>currentTimeMillis<span style='color:#77ce77;'>();</span>
+        <span style='color:#9098ff;'>if</span><span style='color:#77ce77;'>(</span> timeLeft <span style='color:#77ce77;'>&gt;</span> <span style='color:#f0ad6d;'>0</span> <span style='color:#77ce77;'>)</span> <span style='color:#77ce77;'>{</span>
+          sleep<span style='color:#77ce77;'>(</span> TICK <span style='color:#77ce77;'>);</span>
+        <span style='color:#77ce77;'>}</span>
+      <span style='color:#77ce77;'>}</span>
+      <span style='color:#9098ff;'>else</span> <span style='color:#9098ff;'>if</span><span style='color:#77ce77;'>(</span> timeLeft <span style='color:#77ce77;'>&lt;</span> <span style='color:#77ce77;'>-</span>TICK <span style='color:#77ce77;'>)</span> <span style='color:#77ce77;'>{</span>
+        timeNext <span style='color:#77ce77;'>-=</span> timeLeft<span style='color:#77ce77;'>;</span>
+      <span style='color:#77ce77;'>}</span>
+      timeNext <span style='color:#77ce77;'>+=</span> TICK<span style='color:#77ce77;'>;</span>
+    <span style='color:#77ce77;'>}</span>
+  <span style='color:#77ce77;'>}</span>
+
+  @Override
+  <span style='color:#9098ff;'>public</span> <span style='color:#8a96ff;'>void</span> paint<span style='color:#77ce77;'>(</span> <span style='color:#ff8bff;'>Graphics</span> g <span style='color:#77ce77;'>)</span>
+  <span style='color:#77ce77;'>{</span>
+    panel<span style='color:#77ce77;'>.</span>paint<span style='color:#77ce77;'>(</span> g <span style='color:#77ce77;'>);</span>
+  <span style='color:#77ce77;'>}</span>
+
+  @Override
+  <span style='color:#9098ff;'>public</span> <span style='color:#8a96ff;'>void</span> update<span style='color:#77ce77;'>(</span> <span style='color:#ff8bff;'>Graphics</span> g <span style='color:#77ce77;'>)</span>
+  <span style='color:#77ce77;'>{</span>
+    panel<span style='color:#77ce77;'>.</span>paint<span style='color:#77ce77;'>(</span> g <span style='color:#77ce77;'>);</span>
+  <span style='color:#77ce77;'>}</span>
+
+  @Override
+  <span style='color:#9098ff;'>public</span> <span style='color:#8a96ff;'>void</span> init<span style='color:#77ce77;'>()</span>
+  <span style='color:#77ce77;'>{</span>
+    Client client <span style='color:#77ce77;'>=</span> <span style='color:#9098ff;'>new</span> Client<span style='color:#77ce77;'>();</span>
+    add<span style='color:#77ce77;'>(</span> client <span style='color:#77ce77;'>);</span>
+    client<span style='color:#77ce77;'>.</span>setSize<span style='color:#77ce77;'>(</span> getWidth<span style='color:#77ce77;'>(),</span> getHeight<span style='color:#77ce77;'>()</span> <span style='color:#77ce77;'>);</span>
+
+    <span style='color:#ff8bff;'>Thread</span> thread <span style='color:#77ce77;'>=</span> <span style='color:#9098ff;'>new</span> <span style='color:#ff8bff;'>Thread</span><span style='color:#77ce77;'>(</span> client <span style='color:#77ce77;'>);</span>
+    thread<span style='color:#77ce77;'>.</span>start<span style='color:#77ce77;'>();</span>
+  <span style='color:#77ce77;'>}</span>
+
+  <span style='color:#9098ff;'>public</span> <span style='color:#8a96ff;'>static</span> <span style='color:#8a96ff;'>void</span> main<span style='color:#77ce77;'>(</span> <span style='color:#ff8bff;'>String</span><span style='color:#77ce77;'>[]</span> args <span style='color:#77ce77;'>)</span>
+  <span style='color:#77ce77;'>{</span>
+    Client client <span style='color:#77ce77;'>=</span> <span style='color:#9098ff;'>new</span> Client<span style='color:#77ce77;'>();</span>
+    <span style='color:#ff8bff;'>JFrame</span> frame <span style='color:#77ce77;'>=</span> <span style='color:#9098ff;'>new</span> <span style='color:#ff8bff;'>JFrame</span><span style='color:#77ce77;'>(</span> <span style='color:#ffcd8b;background:#404040;'>&quot;Ura&quot;</span> <span style='color:#77ce77;'>);</span>
+
+    frame<span style='color:#77ce77;'>.</span>setResizable<span style='color:#77ce77;'>(</span> <span style='color:#9098ff;'>false</span> <span style='color:#77ce77;'>);</span>
+    frame<span style='color:#77ce77;'>.</span>setDefaultCloseOperation<span style='color:#77ce77;'>(</span> <span style='color:#ff8bff;'>JFrame</span><span style='color:#77ce77;'>.</span>EXIT_ON_CLOSE <span style='color:#77ce77;'>);</span>
+    frame<span style='color:#77ce77;'>.</span>add<span style='color:#77ce77;'>(</span> client<span style='color:#77ce77;'>.</span>panel <span style='color:#77ce77;'>);</span>
+    client<span style='color:#77ce77;'>.</span>panel<span style='color:#77ce77;'>.</span>setPreferredSize<span style='color:#77ce77;'>(</span> <span style='color:#9098ff;'>new</span> <span style='color:#ff8bff;'>Dimension</span><span style='color:#77ce77;'>(</span> WIDTH<span style='color:#77ce77;'>,</span> HEIGHT <span style='color:#77ce77;'>)</span> <span style='color:#77ce77;'>);</span>
+    frame<span style='color:#77ce77;'>.</span>pack<span style='color:#77ce77;'>();</span>
+    frame<span style='color:#77ce77;'>.</span>setVisible<span style='color:#77ce77;'>(</span> <span style='color:#9098ff;'>true</span> <span style='color:#77ce77;'>);</span>
+
+    <span style='color:#9098ff;'>if</span><span style='color:#77ce77;'>(</span> args<span style='color:#77ce77;'>.</span>length <span style='color:#77ce77;'>!=</span> <span style='color:#f0ad6d;'>0</span> <span style='color:#77ce77;'>)</span> <span style='color:#77ce77;'>{</span>
+      <span style='color:#9098ff;'>try</span> <span style='color:#77ce77;'>{</span>
+        client<span style='color:#77ce77;'>.</span>number <span style='color:#77ce77;'>=</span> <span style='color:#ff8bff;'>Long</span><span style='color:#77ce77;'>.</span>parseLong<span style='color:#77ce77;'>(</span> args<span style='color:#77ce77;'>[</span><span style='color:#f0ad6d;'>0</span><span style='color:#77ce77;'>]</span> <span style='color:#77ce77;'>);</span>
+      <span style='color:#77ce77;'>}</span>
+      <span style='color:#9098ff;'>catch</span><span style='color:#77ce77;'>(</span> <span style='color:#ff8bff;'>Exception</span> e <span style='color:#77ce77;'>)</span>
+      <span style='color:#77ce77;'>{}</span>
+    <span style='color:#77ce77;'>}</span>
+
+    <span style='color:#ff8bff;'>Thread</span> thread <span style='color:#77ce77;'>=</span> <span style='color:#9098ff;'>new</span> <span style='color:#ff8bff;'>Thread</span><span style='color:#77ce77;'>(</span> client <span style='color:#77ce77;'>);</span>
+    thread<span style='color:#77ce77;'>.</span>start<span style='color:#77ce77;'>();</span>
+  <span style='color:#77ce77;'>}</span>
+<span style='color:#77ce77;'>}</span>
+</pre>
+</body>
+</html>
